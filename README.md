@@ -25,17 +25,34 @@ It's derived from Scrapyard Bounty (Sharjah),
     ```sh
     pip install -r requirements.txt
     ```
-
-3. Modify the scripts environment variables to your secrets
+   
+3. Setup DB tables:
+    ```sh
+    python manual_setup.py
+    ```
 
 ## Usage
 
+### Locally
 1. Run the Flask application:
     ```sh
-    python CTF.py
+    python Shop.py
     ```
 
 2. Open your web browser and navigate to `http://127.0.0.1:5000`.
+
+### Vercel
+1. Fork this project,
+2. Modify the `vercel.json` as needed
+3. In Vercel, select the fork for building the project (DON'T BUILD YET)
+4. When it asks for the env variables in the settings (before building), put the following:
+    ```md
+    DB_URL_AIVEN = Your DB Secret URL - Doesn't have to be from AIVEN
+    DB_NAME = From the URL, get the DB name you will use, example: `postgres://USERNAME:PASSWORD@ORG_NAME.PROJECT_NAME.l.aivencloud.com:PORT/HERE_IS_THE_DBNAME?sslmode=require`
+    SECRET_KEY = Just anything, it's the password to secure the Flask connection
+   ```
+5. Now you can click build, and everything should be working fine, modify as your heart desires!!
+
 
 ### Modification
 

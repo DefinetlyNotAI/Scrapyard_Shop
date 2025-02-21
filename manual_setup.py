@@ -1,33 +1,34 @@
-import os
-
 import psycopg2
 
 # Database connection parameters
-db_url = os.getenv("DB_URL_AIVEN")
+max_attempts = 10
+attempts = 0
+while True:
+    db_url = input("[?] Please Input the DataBase secret url (type help for help): ")
+    if db_url == "help":
+        print("[-] The URL format starts with `postgres://` it should include the password, username etc")
+    try:
+        # Establish the connection
+        conn = psycopg2.connect(db_url)
+        break
+    except Exception:
+        print("[x] Error connecting to the database, please try again")
+    attempts += 1
+    if attempts >= max_attempts:
+        exit("[x] Maximum number of attempts has been reached")
 
-# Establish the connection
-conn = psycopg2.connect(db_url)
 cursor = conn.cursor()
 
 
-def execute_query(query):
-    cursor.execute(query)
-    if query.strip().lower().startswith("select"):
-        result = cursor.fetchall()
-        for row in result:
-            print(row)
-
-
 try:
-
-    execute_query("""
+    cursor.execute("""
             CREATE TABLE IF NOT EXISTS teams (
                 team_name VARCHAR(100) PRIMARY KEY,
                 password TEXT NOT NULL,
                 ip_address TEXT
             );
     """)
-    execute_query("""
+    cursor.execute("""
             CREATE TABLE IF NOT EXISTS item (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
@@ -36,7 +37,7 @@ try:
                 image TEXT
             );
     """)
-    execute_query("""
+    cursor.execute("""
             CREATE TABLE IF NOT EXISTS receipt (
                 id SERIAL PRIMARY KEY,
                 user_email VARCHAR(255) NOT NULL,
@@ -46,7 +47,7 @@ try:
                 FOREIGN KEY (item_id) REFERENCES item(id)
             );
     """)
-    execute_query("""
+    cursor.execute("""
             CREATE TABLE IF NOT EXISTS missions (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
