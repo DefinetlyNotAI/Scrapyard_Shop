@@ -1,0 +1,7 @@
+psycopg2-binary~=2.9.10
+requests~=2.32.3
+DateTime~=5.5
+pillow~=10.4.0
+Flask~=3.1.0
+waitress~=3.0.2
+Werkzeug~=3.1.3

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+    <title>Volunteer Panel</title>
+    <link href="{{ url_for('static', filename='favicon.png') }}" rel="icon" type="image/png">
+    <link href="{{ url_for('static', filename='css/admin.receipts.css') }}" rel="stylesheet">
+</head>
+<body>
+<h1>Volunteer Panel</h1>
+<table>
+    <tr>
+        <th>Receipt ID</th>
+        <th>User Email</th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for receipt in receipts %}
+    <tr>
+        <td>{{ receipt.id }}</td>
+        <td>{{ receipt.user_email }}</td>
+        <td>{{ receipt.name }}</td>
+        <td>{{ receipt.price }} scraps</td>
+        <td>{{ receipt.status }}</td>
+        <td>
+            <!-- Mark as Paid Button -->
+            <form action="{{ url_for('update_stock') }}" method="POST" style="display:inline;">
+                <input name="receipt_id" type="hidden" value="{{ receipt.id }}">
+                <button type="submit">Mark as Paid</button>
+            </form>
+
+            <!-- Cancel Receipt Button -->
+            <form action="{{ url_for('cancel_receipt') }}" method="POST" style="display:inline;">
+                <input name="receipt_id" type="hidden" value="{{ receipt.id }}">
+                <button type="submit">Cancel</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div style="text-align:center;">
+    <a href="{{ url_for('add_item') }}">Add New Item</a>
+    <a href="{{ url_for('modify_stock') }}">Modify Stock</a>
+    <a class="btn" href="{{ url_for('add_mission') }}">Add New Mission</a>
+</div>
+
+</body>
+</html>

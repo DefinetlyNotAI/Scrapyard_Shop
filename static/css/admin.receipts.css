@@ -1,0 +1,110 @@
+:root {
+    --primary: #2563eb;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e293b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: var(--surface);
+    font-weight: 600;
+}
+
+td {
+    background: var(--surface);
+}
+
+form {
+    display: inline;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+button[type="submit"] {
+    font-size: 1rem;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button[type="submit"]:first-of-type {
+    background: var(--success);
+    color: white;
+    margin-right: 0.5rem;
+}
+
+button[type="submit"]:last-of-type {
+    background: var(--danger);
+    color: white;
+}
+
+a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+a:hover {
+    opacity: 0.9;
+}
+
+table tr:nth-child(even) td {
+    background: #f1f5f9;
+}
+
+table tr:hover td {
+    background: #e2e8f0;
+}
+
+a:hover, button:hover {
+    opacity: 0.8;
+}
