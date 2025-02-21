@@ -3,4 +3,3 @@ instance/*
 !instance/.gitignore
 .webassets-cache
 .env
-
