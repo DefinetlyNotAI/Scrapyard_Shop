@@ -31,9 +31,9 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 START_TIME = time.time()
 
-
 DB_URL_AIVEN = os.getenv("DB_URL_AIVEN")
 DB_NAME = os.getenv("DB_NAME")
+DOMAIN_NAME = "scrapyard-shop.vercel.app"  # Change me
 
 
 # ------------------------- DATABASE ------------------------- #
@@ -42,6 +42,7 @@ DB_NAME = os.getenv("DB_NAME")
 def get_db_connection() -> psycopg2._psycopg.connection:
     conn = psycopg2.connect(DB_URL_AIVEN, dbname=DB_NAME)
     return conn
+
 
 # Init Database
 def setup_database():
@@ -55,7 +56,6 @@ def setup_database():
                 team_name VARCHAR(100) PRIMARY KEY,
                 password TEXT NOT NULL,
                 ip_address TEXT,
-                flags_submitted TEXT
             );
         ''')
 
@@ -388,7 +388,7 @@ def retry(url_to_check: str):
 def allowed_urls() -> List[str]:
     allowed = []
     for rule in app.url_map.iter_rules():
-        url = "scrapyard-bounty.vercel.app" + str(rule)
+        url = DOMAIN_NAME + str(rule)
         # Convert Flask URL rules to regex patterns
         url_pattern = re.sub(r'<[^>]+>', r'[^/]+', url)
         allowed.append(url_pattern)
@@ -539,7 +539,7 @@ def signin():
         else:
             hashed_password = generate_password_hash(password)
             cursor.execute(
-                'INSERT INTO teams (team_name, password, ip_address, flags_submitted) VALUES (%s, %s, %s, %s)',
+                'INSERT INTO teams (team_name, password, ip_address) VALUES (%s, %s, %s, %s)',
                 (team_name, hashed_password, request.remote_addr, ''))
             session['team_name'] = team_name
 
