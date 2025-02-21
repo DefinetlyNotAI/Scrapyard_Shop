@@ -37,6 +37,29 @@ It's derived from Scrapyard Bounty (Sharjah),
 
 2. Open your web browser and navigate to `http://127.0.0.1:5000`.
 
+### Modification
+
+> [!NOTE]
+> The CSS is very messy!!
+
+You must setup the following:
+- (tested on `AIVEN`) ---> Postgresql Database
+- (tested on `VERCEL`) -> Have these env variables setup: DB_NAME (The db name), DB_URL_AIVEN (The secret api url), SECRET_KEY (Any key to secure flask, just type anything)
+
+The code will make sure it init the database, it will be populated with these tables:
+- teams: For storing user/team credentials and related info.
+- item: For storing items in the shop.
+- receipt: For storing purchase receipts.
+- missions: For storing missions related to the items.
+
+> [!IMPORTANT]
+> Even though the original code had an main admin panel (this still has the subpanels like , this doesn't (due to integration reasons) - So you should implement your own!
+> (Or use my code in the [scrapyard bounty](https://github.com/DefinetlyNotAI/Scrapyard_Bounty), but you should integrate it properly...)
+
+---
+
+Creating the username ADMIN gives you admin rights, so do make it and remember the password!
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
