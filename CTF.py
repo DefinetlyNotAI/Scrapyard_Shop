@@ -43,6 +43,62 @@ def get_db_connection() -> psycopg2._psycopg.connection:
     conn = psycopg2.connect(DB_URL_AIVEN, dbname=DB_NAME)
     return conn
 
+# Init Database
+def setup_database():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Create 'teams' table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS teams (
+                team_name VARCHAR(100) PRIMARY KEY,
+                password TEXT NOT NULL,
+                ip_address TEXT,
+                flags_submitted TEXT
+            );
+        ''')
+
+        # Create 'item' table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS item (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                price INT NOT NULL,
+                stock INT NOT NULL,
+                image TEXT
+            );
+        ''')
+
+        # Create 'receipt' table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS receipt (
+                id SERIAL PRIMARY KEY,
+                user_email VARCHAR(255) NOT NULL,
+                item_id INT NOT NULL,
+                status VARCHAR(50) DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (item_id) REFERENCES item(id)
+            );
+        ''')
+
+        # Create 'missions' table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS missions (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                description TEXT NOT NULL,
+                scraps INT NOT NULL
+            );
+        ''')
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print("Database tables set up successfully!")
+    except Exception as e:
+        print(f"Error setting up database: {e}")
+
 
 # Decorator to check if the user is an admin
 def admin_required(param: callable):
@@ -614,6 +670,7 @@ except Exception:
 
 # Run the app
 if __name__ == "__main__":
+    setup_database()
     serve(app, host='0.0.0.0', port=5000)
 
 # --------------------------- END ---------------------------- #
